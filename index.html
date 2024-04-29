@@ -1,9 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    body {
+      background-color: rgb(0, 65, 103);
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
-<style>
-  body {
-    background-color: rgb(0, 65, 103);
-  }
-</style>
+  <link rel="stylesheet" href="css/style.css">
+  
+</head>
+<body>
+
+
+  <div class="audio">
+    <audio>
+      <source src="audio/main.mp3" type="audio/mpeg">
+
+    </audio>
+  </div>
+  
+  <button onclick="toggleAudio()">
+    <i id="playPauseIcon" class="fas fa-play"></i>
+  </button>
+  
+  <input type="range" min="0" max="1" step="0.1" value="1" onchange="setVolume(this.value)">  
+  
 
 <div style="position: relative; display: inline-block;">
   <canvas></canvas>
@@ -12,6 +38,8 @@
   </div>
 </div>
 
+
+
 <script src="js/placementTilesData.js"></script>
 <script src="js/waypoints.js"></script>
 <script src="js/classes/Sprite.js"></script>
@@ -19,4 +47,10 @@
 <script src="js/classes/Enemy.js"></script>
 <script src="js/classes/PlacementTile.js"></script>
 <script src="js/classes/Projectile.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
+<script src="js/audio.js"></script>
+<script src="js/classes/MusicManager"></script>
+<script src="js/classes/SoundManager"></script>
 <script src="js/game.js"></script>
+</body>
+</html>
