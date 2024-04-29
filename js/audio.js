@@ -1,6 +1,6 @@
 let audio = new Howl({
     src: ["audio/main.mp3"],
-    autoplay: false, // Установите false, так как мы не хотим автовоспроизведение
+    autoplay: true,
     loop: true,
     onplay: function() {
       updatePlayPauseIcon(true);
@@ -24,11 +24,11 @@ let audio = new Howl({
   function updatePlayPauseIcon(isPlaying) {
     const icon = document.getElementById("playPauseIcon");
     if (isPlaying) {
-      icon.classList.remove("fa-play");
-      icon.classList.add("fa-pause");
+      icon.classList.remove("fa-volume-mute");
+      icon.classList.add("fa-volume-up");
     } else {
-      icon.classList.remove("fa-pause");
-      icon.classList.add("fa-play");
+      icon.classList.remove("fa-volume-up");
+      icon.classList.add("fa-volume-mute");
     }
   }
   
