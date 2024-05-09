@@ -3,62 +3,103 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  <style>
-    body {
-      background-color: rgb(0, 65, 103);
-    }
-  </style>
+  <link rel="stylesheet" href="./css/style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
-  <link rel="stylesheet" href="css/style.css">
-  
+  <title>Document</title>
 </head>
 <body>
-
-
-  <div class="audio">
-    <audio>
-      <source src="audio/main.mp3" type="audio/mpeg">
-
-    </audio>
-  </div>
+  <div class="main">
+    <canvas style="border: solid 1px #000;"></canvas>
   
-  <button onclick="toggleAudio()">
-    <i id="playPauseIcon" class="fas fa-volume-up"></i>
-  </button>
+    
+    <div class="right">
   
-  <input type="range" min="0" max="1" step="0.1" value="1" onchange="setVolume(this.value)">  
+      <span class="text">
+        Жизней:
+        <div id="hearts">
+          100
+        </div>
+      </span>
   
-  <div class="start-menu" id="start-menu">
-    <button id="start-menuButton" type="button" itemid="start-menuButton">LET'S GO</button>
-  </div>
-
-<div class="game hidden" id="game">
-  <canvas></canvas>
-  <div id="coins" style="color: #fff;">1000</div>
+      <span class="text">
+        <img src="./img/money.png" alt="" width="50px" height="50px">
+        <div id="coins">
+          150
+        </div>
+      </span>
+  
+      <span class="text">
+        <span class="hide">
+          Противников:
+        </span>
+        <span class="show">
+          <img src="./img/boy.gif" alt="">
+        </span>
+        
+        <div id="EnemyLeftCount">
+          10
+        </div>
+      </span>
+  
+  
+  
+      <span class="text">
+        Волна:
+        <div id="wave">
+          1
+        </div>
+      </span>
+  
+      <span class="text">
+        <span class="hide">
+          Счетчик убийств:
+        </span>
+        <span class="show">
+          Счетчик убийств:
+        </span>
+        <div id="EnemyKillCounter" style="color: #fff; font-size: 48px;">
+          0
+        </div>
+      </span>
+  
+    </div>
+  
+    
+      
+    </div>
+    
+    <div class="audio">
+      <audio>
+        <source src="audio/main.mp3" type="audio/mpeg">
+  
+      </audio>
+      <button onclick="toggleAudio()" class="audioBtn">
+        <i id="playPauseIcon" class="fas fa-volume-up"></i>
+      </button>
+      <button id="playButton" class="btn">
+        <img src="./img/play.png" alt="">
+      </button>
+      <button id="pauseButton" class="btn">
+        <img src="./img/pause.png" alt="">
+      </button>
+    <button id="restartButton" class="btn-restart">
+      <img src="./img/restart.png" alt="">
+    </button>
+    </div>
     
   </div>
-</div>
-
-<div class="menu hidden" id="menu">
-  <button id="startButton" type="button">START</button>
-  <button id="pauseButton" type="button">PAUSE</button>
-  <button id="restartButton" type="button">RESTART</button>
-</div>
-
-
-<script src="js/placementTilesData.js"></script>
-<script src="js/waypoints.js"></script>
-<script src="js/classes/Sprite.js"></script>
-<script src="js/classes/Building.js"></script>
-<script src="js/classes/Enemy.js"></script>
-<script src="js/classes/PlacementTile.js"></script>
-<script src="js/classes/Projectile.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
-<script src="js/audio.js"></script>
-<script src="js/classes/MusicManager"></script>
-<script src="js/classes/SoundManager"></script>
-<script src="js/game.js"></script>
+  
+  
+  <script src="js/placementTilesData.js"></script>
+  <script src="js/waypoints.js"></script>
+  <script src="js/classes/Sprite.js"></script>
+  <script src="js/classes/Building.js"></script>
+  <script src="js/classes/Enemy.js"></script>
+  <script src="js/classes/PlacementTile.js"></script>
+  <script src="js/classes/Projectile.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/game.js"></script>
 </body>
 </html>

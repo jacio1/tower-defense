@@ -1,6 +1,6 @@
 class Projectile extends Sprite {
   constructor({ position = { x: 0, y: 0 }, enemy }) {
-    super({ position, imageSrc: 'img/projectile.png' })
+    super({ position, imageSrc: 'img/sandwich.png' })
     this.velocity = {
       x: 0,
       y: 0
@@ -17,9 +17,12 @@ class Projectile extends Sprite {
       this.enemy.center.x - this.position.x
     )
 
-    const power = 15
+    const power = 5
     this.velocity.x = Math.cos(angle) * power
     this.velocity.y = Math.sin(angle) * power
+
+    // var soundtest = new Audio('sound/test.mp3');
+    // Audio.play();
 
     this.position.x += this.velocity.x
     this.position.y += this.velocity.y

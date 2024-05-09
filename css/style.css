@@ -1,17 +1,94 @@
-.start-menu {
-    background-color: rgba(0, 0, 0, 0.433);
-    height: 500px;
+body {
+    background-color: #ffa66b;
+}
+
+.main{
+    max-width: 1920px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    row-gap: 32px;
+    gap: 32px;
+    box-sizing: border-box;
+    
+}
+.right{
     width: 500px;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: space-between;
+    /* gap: 36px; */
+}
+.text{
+    font-family: 'Courier New', Courier, monospace;
     align-items: center;
+    display: flex;
+    gap: 8px;
+    color: #fff;
+    font-size: 36px;
 }
-
-.game {
-    position: relative;
-    display: inline-block;
-}
-
-.hidden {
+.hide{
     display: none;
+}
+@media (max-width: 1540px){
+    .main{
+        flex-direction: column;
+        max-width: 1280px;
+    }
+    .right{
+        width: 100%;
+        align-items: center;
+        justify-content: center;
+    }
+    .text{
+        width: 600px;
+        flex-direction: row; 
+        justify-content: space-between;
+    }
+    .hide{
+        display: flex;
+    }
+    .show{
+        display: none;
+    }
+}
+
+ canvas{
+    position: relative;
+}
+
+ /* button{
+    color:black;
+    border: none;
+    background: none;
+    width: 50px;
+    height: 50px;
+    top: 0;
+    right: 0;
+    left: 0;
+    margin-top: 8px;
+} */
+
+.fas{
+    font-size: 42px;
+} 
+
+.btn{
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.btn-restart{
+    display: none;
+}
+
+.audioBtn{
+    border: none;
+    background-color: transparent;
+}
+
+.audio{
+    display: flex;
+    align-items: center;
 }

@@ -2,34 +2,34 @@ class Building extends Sprite {
   constructor({ position = { x: 0, y: 0 } }) {
     super({
       position,
-      imageSrc: './img/tower.png',
+      imageSrc: './img/tower1.png',
       frames: {
-        max: 19
+        max: 6
       },
       offset: {
         x: 0,
-        y: -80
+        y: -30
       }
     })
 
     this.width = 64 * 2
     this.height = 64
     this.center = {
-      x: this.position.x + this.width / 2,
-      y: this.position.y + this.height / 2
+      x: this.position.x + this.width / 3,
+      y: this.position.y + this.height / 3
     }
     this.projectiles = []
-    this.radius = 250
+    this.radius = 200
     this.target
   }
 
   draw() {
     super.draw()
 
-    // c.beginPath()
-    // c.arc(this.center.x, this.center.y, this.radius, 0, Math.PI * 2)
-    // c.fillStyle = 'rgba(0, 0, 255, 0.2)'
-    // c.fill()
+    c.beginPath()
+    c.arc(this.center.x, this.center.y, this.radius, 0, Math.PI *3)
+    c.fillStyle = 'rgba(255, 255, 255, 0.1)'
+    c.fill()
   }
 
   update() {
@@ -39,7 +39,7 @@ class Building extends Sprite {
 
     if (
       this.target &&
-      this.frames.current === 6 &&
+      this.frames.current === 5 &&
       this.frames.elapsed % this.frames.hold === 0
     )
       this.shoot()

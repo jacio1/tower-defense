@@ -1,20 +1,18 @@
-const canvas = document.querySelector("canvas");
-const c = canvas.getContext("2d");
+const canvas = document.querySelector('canvas')
+const c = canvas.getContext('2d')
 
-canvas.width = 1280;
-canvas.height = 768;
+canvas.width = 1280
+canvas.height = 768
 
-c.fillStyle = "white";
-c.fillRect(0, 0, canvas.width, canvas.height);
+c.fillStyle = 'white'
+c.fillRect(0, 0, canvas.width, canvas.height)
 
-const placementTilesData2D = [];
-
+const placementTilesData2D = []
 for (let i = 0; i < placementTilesData.length; i += 20) {
-  placementTilesData2D.push(placementTilesData.slice(i, i + 20));
+  placementTilesData2D.push(placementTilesData.slice(i, i + 20))
 }
 
-const placementTiles = [];
-
+const placementTiles = []
 placementTilesData2D.forEach((row, y) => {
   row.forEach((symbol, x) => {
     if (symbol === 14) {
@@ -22,239 +20,244 @@ placementTilesData2D.forEach((row, y) => {
         new PlacementTile({
           position: {
             x: x * 64,
-            y: y * 64,
-          },
+            y: y * 64
+          }
         })
-      );
+      )
     }
-  });
-});
+  })
+})
 
-const image = new Image();
-
-
+const image = new Image()
 image.onload = () => {
-  animate();
-};
-image.src = "img/gameMap.png";
+  // animate() // Убрали автоматический запуск анимации
+}
+image.src = 'img/gameMap1.png'
 
-const enemies = [];
-
+const enemies = []
 function spawnEnemies(spawnCount) {
   for (let i = 1; i < spawnCount + 1; i++) {
     const xOffset = i * 150;
+    // Выбор спрайта случайным образом
+    const imageSrc = Math.random() < 0.5 ? 'img/boyStudent-small.png' : 'img/girlStudent.png';
     enemies.push(
       new Enemy({
         position: { x: waypoints[0].x - xOffset, y: waypoints[0].y },
+        imageSrc: imageSrc // Передача выбранного спрайта
       })
     );
   }
 }
 
-const buildings = [];
-let activeTile = undefined;
-let enemyCount = 100;
-let hearts = 100;
-let coins = 1000;
-const explosions = [];
-spawnEnemies(enemyCount);
+const buildings = []
+let activeTile = undefined
+let enemyCount = 10
+let hearts = 100
+let coins = 2000
+let wave = 1
+let damage = 20
+// Счетчик убитых мобов
+let EnemyKillCounter = 0;
+// Конец правки
+const explosions = []
+let EnemyActualCount = 10
+// spawnEnemies(enemyCount) // Убрали автоматический запуск
 
-const startmenuButton = document.querySelector("#start-menuButton");
-const startButton = document.querySelector("#startButton");
-const pauseButton = document.querySelector("#pauseButton");
-const restartButton = document.querySelector("#restartButton");
+let gameStarted = false;
+let gamePaused = false;
+let animationId;
 
-const startmenu = document.querySelector("#start-menu");
-const game = document.querySelector("#game");
-const menu = document.querySelector("#menu");
-
-let gameRunning = false;
-
-const start = () => {
-  if (!gameRunning) {
-    gameRunning = true;
-    animate(); 
-  }
-}
-
-const pause = () => {
-  if (gameRunning) {
-    gameRunning = false;
-    cancelAnimationFrame(animationId);
-  }
-}
-
-const hideGame = () => {
-  menu.classList.add("hidden");
-  game.classList.add("hidden");
-  startmenu.classList.remove("hidden");
-}
-
-const showGame = () => {
-  menu.classList.remove("hidden");
-  game.classList.remove("hidden");
-  startmenu.classList.add("hidden");
-}
-
-startmenuButton.addEventListener("click", () => {
-  start();
-  showGame();
-})
-startButton.addEventListener("click", () => start());
-
-pauseButton.addEventListener("click", () => pause());
-
-restartButton.addEventListener("click", () => {
-  gameRunning = false;
-  
+function resetGame() {
+  // Сброс всех переменных игры к начальному состоянию
   enemies.length = 0;
+  enemyCount = 10;
+  hearts = 100;
+  coins = 2000;
+  wave = 1;
+  damage = 20;
+  EnemyKillCounter = 0;
+  EnemyActualCount = 10;
   buildings.length = 0;
-  hearts = 100; 
-  coins = 1000;                          // хз что ещё сбрасывать
-  placementTiles.forEach((tile) => {
-    tile.isOccupied = false;
-  });
 
-
-  gameRunning = true;
-  animate();
-  pause()
-});
+  // ... и другие переменные, которые нужно сбросить
+  // Обновите отображаемые значения на странице
+  document.querySelector('#hearts').innerHTML = hearts;
+  document.querySelector('#coins').innerHTML = coins;
+  document.querySelector('#wave').innerHTML = wave;
+  document.querySelector('#EnemyLeftCount').innerHTML = EnemyActualCount;
+  document.querySelector('#EnemyKillCounter').innerHTML = EnemyKillCounter; 
+  // ... и другие элементы интерфейса
+}
 
 function animate() {
-  if (gameRunning) {
-    const animationId = requestAnimationFrame(animate);
-
-    c.drawImage(image, 0, 0);
-
-    for (let i = enemies.length - 1; i >= 0; i--) {
-      const enemy = enemies[i];
-      enemy.update();
-  
-      if (enemy.position.x > canvas.width) {
-        hearts -= 1;
-        console.log(hearts);
-        enemies.splice(i, 1);
-        document.querySelector("#hearts").innerHTML = hearts;
-  
-        if (hearts === 0) {
-          console.log("game over");
-          cancelAnimationFrame(animationId);
-          document.querySelector("#gameOver").style.display = "flex";
-        }
+  if (!gameStarted || gamePaused) return;
+  animationId = requestAnimationFrame(animate)
+  c.drawImage(image, 0, 0)
+  for (let i = enemies.length - 1; i >= 0; i--) {
+    const enemy = enemies[i]
+    enemy.update()
+    if (enemy.position.x > canvas.width) {
+      hearts -= 1
+      enemies.splice(i, 1)
+      document.querySelector('#hearts').innerHTML = hearts
+      if (hearts === 0) {
+        console.log('game over')
+        cancelAnimationFrame(animationId)
+        document.querySelector('#gameOver').style.display = 'flex'
       }
     }
-  
-    for (let i = explosions.length - 1; i >= 0; i--) {
-      const explosion = explosions[i];
-      explosion.draw();
-      explosion.update();
-  
-      if (explosion.frames.current >= explosion.frames.max - 1) {
-        explosions.splice(i, 1);
-      }
-    }
-  
-    // tracking total amount of enemies
-    if (enemies.length === 0) {
-      enemyCount += 2;
-      spawnEnemies(enemyCount);
-    }
-  
-    placementTiles.forEach((tile) => {
-      tile.update(mouse);
-    });
-  
-    buildings.forEach((building) => {
-      building.update();
-      building.target = null;
-      const validEnemies = enemies.filter((enemy) => {
-        const xDifference = enemy.center.x - building.center.x;
-        const yDifference = enemy.center.y - building.center.y;
-        const distance = Math.hypot(xDifference, yDifference);
-        return distance < enemy.radius + building.radius;
-      });
-      building.target = validEnemies[0];
-  
-      for (let i = building.projectiles.length - 1; i >= 0; i--) {
-        const projectile = building.projectiles[i];
-  
-        projectile.update();
-  
-        const xDifference = projectile.enemy.center.x - projectile.position.x;
-        const yDifference = projectile.enemy.center.y - projectile.position.y;
-        const distance = Math.hypot(xDifference, yDifference);
-  
-        // this is when a projectile hits an enemy
-        if (distance < projectile.enemy.radius + projectile.radius) {
-          // enemy health and enemy removal
-          projectile.enemy.health -= 20;
-          if (projectile.enemy.health <= 0) {
-            const enemyIndex = enemies.findIndex((enemy) => {
-              return projectile.enemy === enemy;
-            });
-  
-            if (enemyIndex > -1) {
-              enemies.splice(enemyIndex, 1);
-              coins += 25;
-              document.querySelector("#coins").innerHTML = coins;
-            }
-          }
-  
-          explosions.push(
-            new Sprite({
-              position: { x: projectile.position.x, y: projectile.position.y },
-              imageSrc: "./img/explosion.png",
-              frames: { max: 4 },
-              offset: { x: 0, y: 0 },
-            })
-          );
-          building.projectiles.splice(i, 1);
-        }
-      }
-    });
   }
+  for (let i = explosions.length - 1; i >= 0; i--) {
+    const explosion = explosions[i]
+    explosion.draw()
+    explosion.update()
+    if (explosion.frames.current >= explosion.frames.max - 1) {
+      explosions.splice(i, 1)
+    }
+    // console.log(explosions)
+  }
+  // tracking total amount of enemies
+    if (enemies.length === 0) {
+    let EnemyLeftCount = 0;
+    enemyCount += 10
+    wave ++
+    damage = damage - 3
+    EnemyActualCount = enemyCount + 5
+    spawnEnemies(EnemyActualCount)
+    // Прототип
+    document.querySelector('#wave').innerHTML = wave;
+    document.querySelector('#EnemyLeftCount').innerHTML = EnemyActualCount;
+  }
+  placementTiles.forEach((tile) => {
+    tile.update(mouse)
+  })
+  buildings.forEach((building) => {
+    building.update()
+    building.target = null
+    const validEnemies = enemies.filter((enemy) => {
+      const xDifference = enemy.center.x - building.center.x
+      const yDifference = enemy.center.y - building.center.y
+      const distance = Math.hypot(xDifference, yDifference)
+      return distance < enemy.radius + building.radius
+    })
+    building.target = validEnemies[0]
+    for (let i = building.projectiles.length - 1; i >= 0; i--) {
+      const projectile = building.projectiles[i]
+      projectile.update()
+      const xDifference = projectile.enemy.center.x - projectile.position.x
+      const yDifference = projectile.enemy.center.y - projectile.position.y
+      const distance = Math.hypot(xDifference, yDifference)
+
+      // this is when a projectile hits an enemy
+      if (distance < projectile.enemy.radius + projectile.radius) {
+        // enemy health and enemy removal
+        // Система наскеливания урона по врагам
+        if (damage < 6){
+          damage = 6
+          projectile.enemy.health -= damage
+        }
+        else{
+          projectile.enemy.health -= damage
+        }
+
+        console.log(damage)
+        if (projectile.enemy.health <= 0) {
+          const enemyIndex = enemies.findIndex((enemy) => {
+            return projectile.enemy === enemy
+          })
+
+          if (enemyIndex > -1) {
+            enemies.splice(enemyIndex, 1)
+            coins += 15
+            // Счетчик убитых мобов
+            EnemyKillCounter += 1
+            EnemyActualCount--
+            document.querySelector('#EnemyLeftCount').innerHTML = EnemyActualCount;
+            document.querySelector('#EnemyKillCounter').innerHTML = EnemyKillCounter;
+            // Конец правки
+            document.querySelector('#coins').innerHTML = coins;
+          }
+        }
+        // console.log(projectile.enemy.health)
+        explosions.push(
+          new Sprite({
+            position: { x: projectile.position.x, y: projectile.position.y },
+            imageSrc: './img/explosion.png',
+            frames: { max: 4 },
+            offset: { x: 0, y: 0 }
+          })
+        )
+        building.projectiles.splice(i, 1)
+      }
+    }
+  })
 }
 
 const mouse = {
   x: undefined,
-  y: undefined,
-};
+  y: undefined
+}
 
-canvas.addEventListener("click", (event) => {
-  if (activeTile && !activeTile.isOccupied && coins - 50 >= 0) {
-    coins -= 50;
-    document.querySelector("#coins").innerHTML = coins;
+canvas.addEventListener('click', (event) => {
+  if (activeTile && !activeTile.isOccupied && coins - 100 >= 0) {
+    coins -= 100
+    document.querySelector('#coins').innerHTML = coins
     buildings.push(
       new Building({
         position: {
           x: activeTile.position.x,
-          y: activeTile.position.y,
-        },
+          y: activeTile.position.y
+        }
       })
-    );
-    activeTile.isOccupied = true;
+    )
+    activeTile.isOccupied = true
     buildings.sort((a, b) => {
-      return a.position.y - b.position.y;
-    });
+      return a.position.y - b.position.y
+    })
   }
-});
+})
 
-window.addEventListener("mousemove", (event) => {
-  mouse.x = event.clientX;
-  mouse.y = event.clientY;
-
-  activeTile = null;
+window.addEventListener('mousemove', (event) => {
+  mouse.x = event.clientX
+  mouse.y = event.clientY
+  activeTile = null
   for (let i = 0; i < placementTiles.length; i++) {
-    const tile = placementTiles[i];
+    const tile = placementTiles[i]
     if (
       mouse.x > tile.position.x &&
       mouse.x < tile.position.x + tile.size &&
       mouse.y > tile.position.y &&
       mouse.y < tile.position.y + tile.size
     ) {
-      activeTile = tile;
-      break;
+      activeTile = tile
+      break
     }
+  }
+})
+
+const playButton = document.getElementById('playButton');
+playButton.addEventListener('click', () => {
+  if (!gameStarted) {
+    spawnEnemies(enemyCount);
+    gameStarted = true;
+    requestAnimationFrame(animate);
+  }
+});
+
+const restartButton = document.getElementById('restartButton');
+restartButton.addEventListener('click', () => {
+  cancelAnimationFrame(animationId);
+  resetGame();
+  gameStarted = false;
+  // Опционально: скрыть элементы интерфейса
+});
+
+const pauseButton = document.getElementById('pauseButton');
+pauseButton.addEventListener('click', () => {
+  gamePaused = !gamePaused;
+  if (gamePaused) {
+    cancelAnimationFrame(animationId);
+  } else {
+    requestAnimationFrame(animate);
   }
 });

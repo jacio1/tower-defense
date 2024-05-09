@@ -1,16 +1,16 @@
 let audio = new Howl({
     src: ["audio/main.mp3"],
-    autoplay: true,
+    autoplay: false,
     loop: true,
-    onplay: function() {
+    onplay: function () {
       updatePlayPauseIcon(true);
     },
-    onpause: function() {
+    onpause: function () {
       updatePlayPauseIcon(false);
     },
-    onstop: function() {
+    onstop: function () {
       updatePlayPauseIcon(false);
-    }
+    },
   });
   
   function toggleAudio() {
@@ -35,4 +35,3 @@ let audio = new Howl({
   function setVolume(value) {
     audio.volume(value);
   }
-  
