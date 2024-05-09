@@ -4,7 +4,8 @@ body {
 
 .main{
     max-width: 1920px;
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
     flex-direction: row;
     justify-content: space-between;
     row-gap: 32px;
@@ -32,7 +33,8 @@ body {
 }
 @media (max-width: 1540px){
     .main{
-        flex-direction: column;
+        display: grid;
+        grid-template-columns: max-content;
         max-width: 1280px;
     }
     .right{
