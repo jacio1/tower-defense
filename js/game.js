@@ -78,7 +78,9 @@ function resetGame() {
   EnemyKillCounter = 0;
   EnemyActualCount = 10;
   buildings.length = 0;
-
+  placementTiles.forEach(tile => {
+    tile.isOccupied = false;
+  });
   // ... и другие переменные, которые нужно сбросить
   // Обновите отображаемые значения на странице
   document.querySelector('#hearts').innerHTML = hearts;
@@ -97,14 +99,17 @@ function animate() {
     const enemy = enemies[i]
     enemy.update()
     if (enemy.position.x > canvas.width) {
-      hearts -= 1
-      enemies.splice(i, 1)
-      document.querySelector('#hearts').innerHTML = hearts
-      if (hearts === 0) {
-        console.log('game over')
-        cancelAnimationFrame(animationId)
-        document.querySelector('#gameOver').style.display = 'flex'
+      if (enemy.health > 0){
+        hearts -= 1
+        enemies.splice(i, 1)
+        document.querySelector('#hearts').innerHTML = hearts
+        if (hearts === 0) {
+          console.log('game over')
+          cancelAnimationFrame(animationId)
+          document.querySelector('#gameOver').style.display = 'flex'
+        }
       }
+      enemies.splice(i,1);
     }
   }
   for (let i = explosions.length - 1; i >= 0; i--) {
@@ -135,11 +140,11 @@ function animate() {
     building.update()
     building.target = null
     const validEnemies = enemies.filter((enemy) => {
-      const xDifference = enemy.center.x - building.center.x
-      const yDifference = enemy.center.y - building.center.y
-      const distance = Math.hypot(xDifference, yDifference)
-      return distance < enemy.radius + building.radius
-    })
+      const xDifference = enemy.center.x - building.center.x;
+      const yDifference = enemy.center.y - building.center.y;
+      const distance = Math.hypot(xDifference, yDifference);
+      return distance < enemy.radius + building.radius && enemy.health > 0; // Добавляем проверку здоровья
+    });
     building.target = validEnemies[0]
     for (let i = building.projectiles.length - 1; i >= 0; i--) {
       const projectile = building.projectiles[i]
@@ -161,13 +166,13 @@ function animate() {
         }
 
         console.log(damage)
-        if (projectile.enemy.health <= 0) {
+        if (projectile.enemy.health <= 0 && !projectile.enemy.isDead) {
           const enemyIndex = enemies.findIndex((enemy) => {
             return projectile.enemy === enemy
           })
 
           if (enemyIndex > -1) {
-            enemies.splice(enemyIndex, 1)
+            // enemies.splice(enemyIndex, 1)
             coins += 15
             // Счетчик убитых мобов
             EnemyKillCounter += 1
@@ -176,6 +181,8 @@ function animate() {
             document.querySelector('#EnemyKillCounter').innerHTML = EnemyKillCounter;
             // Конец правки
             document.querySelector('#coins').innerHTML = coins;
+            projectile.enemy.isDead = true; // Помечаем врага как "убитого"
+
           }
         }
         // console.log(projectile.enemy.health)

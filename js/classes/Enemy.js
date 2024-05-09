@@ -24,16 +24,15 @@ class Enemy extends Sprite {
 
   draw() {
     super.draw();
+    
     // health bar
     c.fillStyle = 'red';
-    c.fillRect(this.position.x, this.position.y - 15, this.width, 10);
-    c.fillStyle = 'green';
-    c.fillRect(
-      this.position.x,
-      this.position.y - 15,
-      (this.width * this.health) / 100,
-      10
-    );
+    c.fillRect(this.position.x, this.position.y - 15, this.width, 10); 
+    
+    if (this.health > 0) {
+      c.fillStyle = 'green';
+      c.fillRect(this.position.x, this.position.y - 15, (this.width * this.health) / 100, 10);
+    }
   }
 
   update() {

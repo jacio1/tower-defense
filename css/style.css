@@ -1,3 +1,11 @@
+@font-face {
+    font-family: Inky Thin Pixels;
+    src: url(../fonts/Inky-Thin-Pixels_0.woff) format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
 body {
     background-color: #ffa66b;
 }
@@ -21,7 +29,7 @@ body {
     /* gap: 36px; */
 }
 .text{
-    font-family: 'Courier New', Courier, monospace;
+    font-family: Inky Thin Pixels;
     align-items: center;
     display: flex;
     gap: 8px;
@@ -82,7 +90,9 @@ body {
 }
 
 .btn-restart{
-    display: none;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
 }
 
 .audioBtn{
