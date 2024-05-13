@@ -42,7 +42,7 @@ class Enemy extends Sprite {
     const yDistance = waypoint.y - this.center.y;
     const xDistance = waypoint.x - this.center.x;
     const angle = Math.atan2(yDistance, xDistance);
-    const speed = 1;
+    const speed = 5;
 
     this.velocity.x = Math.cos(angle) * speed;
     this.velocity.y = Math.sin(angle) * speed;

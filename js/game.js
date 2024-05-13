@@ -32,7 +32,7 @@ const image = new Image()
 image.onload = () => {
   // animate() // Убрали автоматический запуск анимации
 }
-image.src = 'img/gameMap1.png'
+image.src = 'img/gameMap2.png'
 
 const enemies = []
 function spawnEnemies(spawnCount) {
