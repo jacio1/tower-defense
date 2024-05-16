@@ -41,6 +41,9 @@ body {
     display: none;
 }
 @media (max-width: 1540px){
+    body{
+        overflow-y: scroll  ;
+    }
     .main{
         display: grid;
         grid-template-columns: max-content;

@@ -52,8 +52,8 @@ function spawnEnemies(spawnCount) {
 const buildings = []
 let activeTile = undefined
 let enemyCount = 10
-let hearts = 100
-let coins = 2000
+let hearts = 10
+let coins = 200 
 let wave = 1
 let damage = 20
 // Счетчик убитых мобов
@@ -71,8 +71,8 @@ function resetGame() {
   // Сброс всех переменных игры к начальному состоянию
   enemies.length = 0;
   enemyCount = 10;
-  hearts = 100;
-  coins = 2000;
+  hearts = 10;
+  coins = 200;
   wave = 1;
   damage = 20;
   EnemyKillCounter = 0;
