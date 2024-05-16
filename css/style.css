@@ -8,6 +8,7 @@
 
 body {
     background-color: #ffa66b;
+    overflow-y: hidden;
 }
 
 .main{

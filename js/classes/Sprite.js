@@ -12,7 +12,7 @@ class Sprite {
       max: frames.max,
       current: 0,
       elapsed: 0,
-      hold: 15
+      hold: 12
     }
     this.offset = offset
   }
