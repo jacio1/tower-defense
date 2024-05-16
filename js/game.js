@@ -104,7 +104,7 @@ function animate() {
         enemies.splice(i, 1)
         document.querySelector('#hearts').innerHTML = hearts
         if (hearts === 0) {
-          console.log('game over')
+          alert('Вы проиграли! Начните игру заново.')
           cancelAnimationFrame(animationId)
           document.querySelector('#gameOver').style.display = 'flex'
         }
