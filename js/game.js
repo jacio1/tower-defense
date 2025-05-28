@@ -30,7 +30,7 @@ placementTilesData2D.forEach((row, y) => {
 
 const image = new Image()
 image.onload = () => {
-  // animate() // Убрали автоматический запуск анимации
+  // animate() 
 }
 image.src = 'img/gameMap2.png'
 
@@ -38,12 +38,11 @@ const enemies = []
 function spawnEnemies(spawnCount) {
   for (let i = 1; i < spawnCount + 1; i++) {
     const xOffset = i * 150;
-    // Выбор спрайта случайным образом
     const imageSrc = Math.random() < 0.5 ? 'img/boyStudent-small.png' : 'img/girlStudent.png';
     enemies.push(
       new Enemy({
         position: { x: waypoints[0].x - xOffset, y: waypoints[0].y },
-        imageSrc: imageSrc // Передача выбранного спрайта
+        imageSrc: imageSrc 
       })
     );
   }
@@ -56,12 +55,10 @@ let hearts = 10
 let coins = 200 
 let wave = 1
 let damage = 20
-// Счетчик убитых мобов
 let EnemyKillCounter = 0;
-// Конец правки
 const explosions = []
 let EnemyActualCount = 10
-// spawnEnemies(enemyCount) // Убрали автоматический запуск
+// spawnEnemies(enemyCount) 
 
 let gameStarted = false;
 let gamePaused = false;
@@ -81,14 +78,11 @@ function resetGame() {
   placementTiles.forEach(tile => {
     tile.isOccupied = false;
   });
-  // ... и другие переменные, которые нужно сбросить
-  // Обновите отображаемые значения на странице
   document.querySelector('#hearts').innerHTML = hearts;
   document.querySelector('#coins').innerHTML = coins;
   document.querySelector('#wave').innerHTML = wave;
   document.querySelector('#EnemyLeftCount').innerHTML = EnemyActualCount;
   document.querySelector('#EnemyKillCounter').innerHTML = EnemyKillCounter; 
-  // ... и другие элементы интерфейса
 }
 
 function animate() {
@@ -121,7 +115,6 @@ function animate() {
     }
     // console.log(explosions)
   }
-  // tracking total amount of enemies
     if (enemies.length === 0) {
     let EnemyLeftCount = 0;
     enemyCount += 10
@@ -129,7 +122,6 @@ function animate() {
     damage = damage - 3
     EnemyActualCount = enemyCount + 5
     spawnEnemies(EnemyActualCount)
-    // Прототип
     document.querySelector('#wave').innerHTML = wave;
     document.querySelector('#EnemyLeftCount').innerHTML = EnemyActualCount;
   }
@@ -143,7 +135,7 @@ function animate() {
       const xDifference = enemy.center.x - building.center.x;
       const yDifference = enemy.center.y - building.center.y;
       const distance = Math.hypot(xDifference, yDifference);
-      return distance < enemy.radius + building.radius && enemy.health > 0; // Добавляем проверку здоровья
+      return distance < enemy.radius + building.radius && enemy.health > 0; 
     });
     building.target = validEnemies[0]
     for (let i = building.projectiles.length - 1; i >= 0; i--) {
@@ -153,9 +145,7 @@ function animate() {
       const yDifference = projectile.enemy.center.y - projectile.position.y
       const distance = Math.hypot(xDifference, yDifference)
 
-      // this is when a projectile hits an enemy
       if (distance < projectile.enemy.radius + projectile.radius) {
-        // enemy health and enemy removal
         // Система наскеливания урона по врагам
         if (damage < 6){
           damage = 6
@@ -172,16 +162,14 @@ function animate() {
           })
 
           if (enemyIndex > -1) {
-            // enemies.splice(enemyIndex, 1)
             coins += 15
             // Счетчик убитых мобов
             EnemyKillCounter += 1
             EnemyActualCount--
             document.querySelector('#EnemyLeftCount').innerHTML = EnemyActualCount;
             document.querySelector('#EnemyKillCounter').innerHTML = EnemyKillCounter;
-            // Конец правки
             document.querySelector('#coins').innerHTML = coins;
-            projectile.enemy.isDead = true; // Помечаем врага как "убитого"
+            projectile.enemy.isDead = true; 
 
           }
         }
@@ -256,7 +244,6 @@ restartButton.addEventListener('click', () => {
   cancelAnimationFrame(animationId);
   resetGame();
   gameStarted = false;
-  // Опционально: скрыть элементы интерфейса
 });
 
 const pauseButton = document.getElementById('pauseButton');
